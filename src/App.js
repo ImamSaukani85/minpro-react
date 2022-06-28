@@ -12,6 +12,8 @@ import Products from './components/home/products';
 import Footer from './components/footer/footer';
 import { Route, Routes } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import Cart from './components/cart/cart';
+import Checkout from './pages/checkout/checkout';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           </>
           } />
           <Route path='/detail-product/:id' element={<DetailProduct />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/checkout' element={<Checkout />} />
           <Route path='/dashboard-admin' element={<DashboardAdmin />} />
           <Route path='/Login' element={<Login />} />
           <Route path='/Register' element={<Register />} />
