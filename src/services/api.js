@@ -84,3 +84,13 @@ export const updateProduct = (id, name, quantity, category, price, image, descri
 
     return axios.put(`${BASE_URL}/products/${id}`, bodyJSON, headerConfig)
 }
+
+export const checkout = (name, email, address) => {
+    const bodyJSON = {
+        name: name,
+        email: email,
+        address: address
+    }
+
+    return axios.post(`${BASE_URL}`, bodyJSON,);
+}

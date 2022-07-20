@@ -20,7 +20,7 @@ const Cart = () => {
                     <button onClick={() => handleClose(cartItem)} className="btn-close float-end" aria-label="Close"></button>
                     <div className="row justify-content-center">
                         <div>
-                            <img src={cartItem.dataProduct.image} alt={cartItem.dataProduct.name} height="200px" width="180px" />
+                            <img src={cartItem.dataProduct.image} alt={cartItem.dataProduct.name} height="230px" width="200px" className=""/>
                         </div>
                         <div className="col-md-4">
                             <h3>{cartItem.dataProduct.name}</h3>
@@ -48,7 +48,7 @@ const Cart = () => {
         return(
         <div className="container">
             <div className="row">
-                <NavLink to="/checkout" className="btn btn-outline-primary">Proceed To Checkout</NavLink>
+                <NavLink to="/checkout" className="btn btn-outline-primary mb-5 w-25 mx-auto">Proceed To Checkout</NavLink>
             </div>
         </div>
         )

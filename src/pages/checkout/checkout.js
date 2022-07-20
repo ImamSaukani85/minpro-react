@@ -1,221 +1,105 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import LogoMandiri from "../../assets/img/logo mandiri.png";
+import { Form, Button } from "react-bootstrap";
+import { checkout } from '../../services/api';
 
 const Checkout = () => {
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [address, setAddress] = useState("")
+
+  const submitCheckout = async (e) => {
+    e.preventDefault();
+    await checkout(name, email, address)
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error))
+  }
+  const state = useSelector((state) => state.addItem);
+
+  var total = 0;
+  const itemList = (item) => {
+    total = total + item.dataProduct.price;
+    return (
+      <li className="list-group-item d-flex justify-content-between lh-sm">
+        <div>
+          <h6 className="my-0">{item.dataProduct.name}</h6>
+        </div>
+        <span className="text-muted">{item.dataProduct.price}</span>
+      </li>
+    );
+  };
+
   return (
     <>
-        <div className="container">
-          <div class="row g-5">
-            <div class="col-md-5 col-lg-4 order-md-last">
-              <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span className="text-primary">Your cart</span>
-                <span classname="badge bg-primary rounded-pill">3</span>
-              </h4>
-              <ul classname="list-group mb-3">
-                <li classname="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 classname="my-0">Product name</h6>
-                    <small classname="text-muted">Brief description</small>
-                  </div>
-                  <span classname="text-muted">$12</span>
-                </li>
-                <li classname="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 classname="my-0">Second product</h6>
-                    <small classname="text-muted">Brief description</small>
-                  </div>
-                  <span classname="text-muted">$8</span>
-                </li>
-                <li classname="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 classname="my-0">Third item</h6>
-                    <small classname="text-muted">Brief description</small>
-                  </div>
-                  <span classname="text-muted">$5</span>
-                </li>
-                <li classname="list-group-item d-flex justify-content-between bg-light">
-                  <div classname="text-success">
-                    <h6 classname="my-0">Promo code</h6>
-                    <small>EXAMPLECODE</small>
-                  </div>
-                  <span classname="text-success">−$5</span>
-                </li>
-                <li classname="list-group-item d-flex justify-content-between">
-                  <span>Total (USD)</span>
-                  <strong>$20</strong>
-                </li>
-              </ul>
+      <div className="container">
+        <div className="row g-5">
+          <div className="col-md-5 col-lg-4 order-md-last">
+            <h4 className="d-flex justify-content-between align-items-center mb-3">
+              <span className="text-primary">Your cart</span>
+              <span className="badge bg-primary rounded-pill">
+                {state.length}
+              </span>
+            </h4>
+            <ul className="list-group mb-3">
+              {state.map(itemList)}
 
-              <form classname="card p-2">
-                <div classname="input-group">
-                  <input
-                    type="text"
-                    classname="form-control"
-                    placeholder="Promo code"
-                  />
-                  <button type="submit" classname="btn btn-secondary">
-                    Redeem
-                  </button>
-                </div>
-              </form>
-            </div>
-            <div classname="col-md-7 col-lg-8">
-              <h4 classname="mb-3">Billing address</h4>
-              <form classname="needs-validation" novalidate="">
-                <div classname="row g-3">
-                  <div classname="col-sm-6">
-                    <label for="firstName" classname="form-label">
-                      First name
-                    </label>
-                    <input
-                      type="text"
-                      classname="form-control"
-                      id="firstName"
-                      placeholder=""
-                      value=""
-                      required=""
-                    />
-                    <div classname="invalid-feedback">
-                      Valid first name is required.
-                    </div>
-                  </div>
-
-                  <div classname="col-sm-6">
-                    <label for="lastName" classname="form-label">
-                      Last name
-                    </label>
-                    <input
-                      type="text"
-                      classname="form-control"
-                      id="lastName"
-                      placeholder=""
-                      value=""
-                      required=""
-                    />
-                    <div classname="invalid-feedback">
-                      Valid last name is required.
-                    </div>
-                  </div>
-
-                  <div classname="col-12">
-                    <label for="email" classname="form-label">
-                      Email <span classname="text-muted">(Optional)</span>
-                    </label>
-                    <input
-                      type="email"
-                      classname="form-control"
-                      id="email"
-                      placeholder="you@example.com"
-                    />
-                    <div classname="invalid-feedback">
-                      Please enter a valid email address for shipping updates.
-                    </div>
-                  </div>
-
-                  <div classname="col-md-3">
-                    <label for="zip" classname="form-label">
-                      Zip
-                    </label>
-                    <input
-                      type="text"
-                      classname="form-control"
-                      id="zip"
-                      placeholder=""
-                      required=""
-                    />
-                    <div classname="invalid-feedback">Zip code required.</div>
-                  </div>
-                </div>
-
-                <hr classname="my-4" />
-
-                <hr classname="my-4" />
-
-                <h4 classname="mb-3">Payment</h4>
-
-                <div classname="my-3">
-                  <div classname="form-check">
-                    <input
-                      id="credit"
-                      name="paymentMethod"
-                      type="radio"
-                      classname="form-check-input"
-                      checked=""
-                      required=""
-                    />
-                    <label classname="form-check-label" for="credit">
-                      Credit card
-                    </label>
-                  </div>
-                  <div classname="form-check">
-                    <input
-                      id="debit"
-                      name="paymentMethod"
-                      type="radio"
-                      classname="form-check-input"
-                      required=""
-                    />
-                    <label classname="form-check-label" for="debit">
-                      Debit card
-                    </label>
-                  </div>
-                  <div classname="form-check">
-                    <input
-                      id="paypal"
-                      name="paymentMethod"
-                      type="radio"
-                      classname="form-check-input"
-                      required=""
-                    />
-                    <label classname="form-check-label" for="paypal">
-                      PayPal
-                    </label>
-                  </div>
-                </div>
-
-                <div classname="row gy-3">
-                  <div classname="col-md-6">
-                    <label for="cc-name" classname="form-label">
-                      Name on card
-                    </label>
-                    <input
-                      type="text"
-                      classname="form-control"
-                      id="cc-name"
-                      placeholder=""
-                      required=""
-                    />
-                    <small classname="text-muted">
-                      Full name as displayed on card
-                    </small>
-                    <div classname="invalid-feedback">Name on card is required</div>
-                  </div>
-
-                  <div classname="col-md-6">
-                    <label for="cc-number" classname="form-label">
-                      Credit card number
-                    </label>
-                    <input
-                      type="text"
-                      classname="form-control"
-                      id="cc-number"
-                      placeholder=""
-                      required=""
-                    />
-                    <div classname="invalid-feedback">
-                      Credit card number is required
-                    </div>
-                  </div>
-                </div>
-
-                <hr classname="my-4" />
-
-                <button class="w-100 btn btn-primary btn-lg" type="submit">
-                  Continue to checkout
-                </button>
-              </form>
+              <li className="list-group-item d-flex justify-content-between">
+                <span>Total (Rp)</span>
+                <strong>Rp{total}</strong>
+              </li>
+            </ul>
+            <div className="row">
+              <div className="col-3 text-right">
+                <img src={LogoMandiri} alt="mandiri" width="80" />
+              </div>
+              <div className="col">
+                <dl>
+                  <dd>Bank Mandiri</dd>
+                  <dd>2208 1996</dd>
+                  <dd>La Collection</dd>
+                </dl>
+              </div>
             </div>
           </div>
+          <div className="col-md-7 col-lg-8">
+            <h4 className="mb-3">Checkout</h4>
+            <Form onSubmit={submitCheckout}>
+              <Form.Group className="mb-3" controlId="formBasicText">
+                <Form.Label>Name</Form.Label>
+                <Form.Control 
+                type="text" 
+                placeholder="Name"
+                onChange={(e) => setName(e.target.value)} 
+                required={true} 
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Email</Form.Label>
+                <Form.Control 
+                type="email" 
+                placeholder="you@example.com" 
+                onChange={(e) => setEmail(e.target.value)}
+                required={true}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicText">
+                <Form.Label>Address</Form.Label>
+                <Form.Control 
+                type="text" 
+                placeholder="1234 Main St" 
+                onChange={(e) => setAddress(e.target.value)}
+                required={true}
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit" className="w-100 btn-lg">
+                Submit
+              </Button>
+            </Form>
+          </div>
         </div>
+      </div>
     </>
   );
 };

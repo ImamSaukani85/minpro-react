@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import { useSelector } from "react-redux";
+import "../../assets/styles/index.css"
 
 const Header = () => {
   const isLogin = Cookies.get("token");
@@ -28,7 +29,7 @@ const Header = () => {
       method: 'GET',
       url: `${BASE_URL}/${search}`,
     }).then((result) => {
-      setStuff(result.data.name)
+      console.log(result.dataProduct.name)
     })
   }
   
@@ -47,6 +48,17 @@ const Header = () => {
             <Nav.Link as={Link} to="/">
               Home
             </Nav.Link>
+
+            <Form className="d-flex">
+            <FormControl
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <Button className="me-2" variant="outline-dark" onClick={() => findStuff()}>Search</Button>
+          </Form>
 
             {isLogin ? (
               <>
@@ -82,20 +94,11 @@ const Header = () => {
                 href=""
                 className="me-2"
               >
-                <i className="fa fa-sign-in me-1 ms-2"></i>Login
+                <i className="login fa fa-sign-in me-1 ms-2"></i>Login
               </Button>
             )}
           </Nav>
-          <Form className="d-flex">
-            <FormControl
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <Button className="me-2" variant="outline-dark" onClick={() => findStuff()}>Search</Button>
-          </Form>
+          
           <Button
                 as={Link}
                 to="/cart"
